@@ -117,12 +117,10 @@ def generate_optimization_report(analysis: str, channel_name: str) -> str:
 """
     return report
 
-def send_email(recipient: str, subject: str, html_body: str) -> bool:
-    """Send HTML email via Gmail SMTP"""
-    try:
-        sender_email = os.getenv("GMAIL_ADDRESS")
-        sender_password = os.getenv("GMAIL_APP_PASSWORD")
-        
+with smtplib.SMTP("smtp-mail.outlook.com", 587) as server:
+    server.starttls()
+    server.login(sender_email, sender_password)
+    server.sendmail(sender_email, recipient, message.as_string())
         if not sender_email or not sender_password:
             print("ERROR: GMAIL_ADDRESS or GMAIL_APP_PASSWORD not set")
             return False
