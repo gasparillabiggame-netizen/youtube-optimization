@@ -117,8 +117,7 @@ def generate_optimization_report(analysis: str, channel_name: str) -> str:
 """
     return report
 
-with smtplib.SMTP("smtp-mail.outlook.com", 587) as server:
-    server.starttls()
+with smtplib.SMTP_SSL("smtp.mail.me.com", 465) as server:
     server.login(sender_email, sender_password)
     server.sendmail(sender_email, recipient, message.as_string())
         if not sender_email or not sender_password:
