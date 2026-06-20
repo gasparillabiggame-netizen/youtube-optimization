@@ -1,0 +1,39 @@
+name: YouTube Optimization Engine - Weekly Analysis
+
+on:
+  schedule:
+    # Run every Saturday at 9:00 AM EST (14:00 UTC)
+    - cron: '0 14 * * 6'
+  
+  # Allow manual trigger from GitHub Actions UI for testing
+  workflow_dispatch:
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install anthropic
+      
+      - name: Run YouTube Optimization Engine
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: python youtube_optimization_engine.py
+      
+      - name: Log execution status
+        if: always()
+        run: echo "Optimization engine run completed at $(date)"
