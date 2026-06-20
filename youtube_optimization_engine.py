@@ -134,7 +134,7 @@ def send_email(recipient: str, subject: str, html_body: str) -> bool:
         
         message.attach(MIMEText(html_body, "html"))
         
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        with smtplib.SMTP_SSL("smtp-mail.outlook.com", 587) as server:
             server.login(sender_email, sender_password)
             server.sendmail(sender_email, recipient, message.as_string())
         
